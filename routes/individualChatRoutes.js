@@ -1,22 +1,19 @@
 const express = require("express");
 const individualChatController = require("../controllers/individualChat/individualChatController");
 const individualChatRouter = express.Router();
+const auth = require("../middleware/authMiddleware");
 
-individualChatRouter
-  .route("/:friendId")
-  .post(individualChatController.createChat);
-individualChatRouter.route("/").get(individualChatController.getChats);
-
-individualChatRouter
-  .route("/:chatId")
-  .get(individualChatController.getInidividualChat);
-individualChatRouter
-  .route("/:chatId")
-  .post(individualChatController.sendIndividualChatMessage);
-
-//onn hold
+individualChatRouter.route("/").get(auth,individualChatController.getChats);
 // individualChatRouter
-//   .route("/:chatId")
-//   .delete(individualChatController.deleteChatMessage);
+//   .route("/")
+//   .get(individualChatController.getInidividualChat);
+individualChatRouter
+  .route("/")
+  .post(auth,individualChatController.sendIndividualChatMessage);
+
+// //onn hold
+// // individualChatRouter
+// //   .route("/:chatId")
+// //   .delete(individualChatController.deleteChatMessage);
 
 module.exports = individualChatRouter;
