@@ -1,13 +1,12 @@
 const express = require("express");
 const groupChatController = require("../controllers/groupChat/groupChatController");
 const groupChatRouter = express.Router();
+const auth = require("../middleware/authMiddleware");
 
-groupChatRouter.route("/").post(groupChatController.createGroupChat);
-groupChatRouter.route("/").get(groupChatController.getGroupChats);
-groupChatRouter.route("/:chatId").get(groupChatController.getGroupChat);
-groupChatRouter.route("/:chatId").post(groupChatController.sendGroupChatMessage);
+groupChatRouter.route("/").get(auth, groupChatController.getGroupChats);
+groupChatRouter.route("/").post(auth, groupChatController.sendGroupChatMessage);
 
-//onn hold
+//on hold
 // groupChatRouter.route("/:chatId").delete(groupChatController.deleteGroupChatMessage);
 
 module.exports = groupChatRouter;
