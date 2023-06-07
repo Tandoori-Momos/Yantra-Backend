@@ -13,6 +13,7 @@ module.exports = {
       location: Joi.string().required(),
       interests: Joi.array().items(Joi.string()).required(),
       healthConditions: Joi.array().items(Joi.string()).required(),
+      hobbies: Joi.array().items(Joi.string()).required(),
     });
     return schema.validate(body);
   },

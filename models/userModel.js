@@ -43,6 +43,11 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    hobbies: [
+      {
+        type: String,
+      },
+    ],
     groups: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -45,6 +45,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
     location: req.body.location,
     interests: req.body.interests,
     healthConditions: req.body.healthConditions,
+    hobbies: req.body.hobbies,
     groups: [],
     friends: [],
   }).save();
