@@ -34,8 +34,10 @@ exports.sendIndividualChatMessage = catchAsync(async (req, res, next) => {
     );
   }
 
+  const user = await userModel.findById(req.user._id);
   const { friendName, message } = req.body;
   const friend = await userModel.findOne({ username: friendName });
+
   if (!friend) {
     return next(
       new AppError(
@@ -45,6 +47,17 @@ exports.sendIndividualChatMessage = catchAsync(async (req, res, next) => {
       )
     );
   }
+
+  if (user.friends.indexOf(friend._id) == -1) {
+    return next(
+      new AppError(
+        `User with username ${friendName} is not your friend`,
+        400,
+        errorCodes.INPUT_PARAMS_INVALID
+      )
+    );
+  }
+
   const individualChat = await individualChatModel.findOne({
     $or: [
       { user1: req.user._id, user2: friend._id },
@@ -57,7 +70,6 @@ exports.sendIndividualChatMessage = catchAsync(async (req, res, next) => {
       user2: friend._id,
     }).save();
   }
-
 
   await individualChatModel.findOneAndUpdate(
     {
