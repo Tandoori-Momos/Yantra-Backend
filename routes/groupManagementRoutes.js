@@ -1,37 +1,40 @@
 const express = require("express");
 const groupManagementController = require("../controllers/groupManagement/groupManagementController");
 const groupManagementRouter = express.Router();
-
-groupManagementRouter.route("/").get(groupManagementController.getGroups);
-groupManagementRouter.route("/").post(groupManagementController.createGroup);
-groupManagementRouter
-  .route("/:groupId")
-  .get(groupManagementController.getGroup);
-groupManagementRouter
-  .route("/:groupId")
-  .patch(groupManagementController.updateGroup);
-groupManagementRouter
-  .route("/:groupId")
-  .delete(groupManagementController.deleteGroup);
+const auth = require("../middleware/authMiddleware");
 
 groupManagementRouter
-  .route("/:groupId/join")
-  .post(groupManagementController.joinGroup);
+  .route("/join")
+  .post(auth, groupManagementController.joinGroup);
+groupManagementRouter.route("/").get(auth, groupManagementController.getGroups);
 groupManagementRouter
-  .route("/:groupId/leave")
-  .delete(groupManagementController.leaveGroup);
-
-groupManagementRouter
-  .route("/:groupId/members")
-  .get(groupManagementController.getGroupMembers);
-
-//not needed now
-// //only group admin can add/remove members
+  .route("/")
+  .post(auth, groupManagementController.createGroup);
 // groupManagementRouter
-//   .route("/:groupId/members/:memberId")
-//   .post(groupManagementController.addGroupMember);
+//   .route("/:groupId")
+//   .get(groupManagementController.getGroup);
 // groupManagementRouter
-//   .route("/:groupId/members/:memberId")
-//   .delete(groupManagementController.removeGroupMember);
+//   .route("/:groupId")
+//   .patch(groupManagementController.updateGroup);//on hold
+// groupManagementRouter
+//   .route("/:groupId")
+//   .delete(groupManagementController.deleteGroup);//on hold
+
+// groupManagementRouter
+//   .route("/:groupId/leave")
+//   .delete(groupManagementController.leaveGroup);
+
+// groupManagementRouter
+//   .route("/:groupId/members")
+//   .get(groupManagementController.getGroupMembers);
+
+// //not needed now
+// // //only group admin can add/remove members
+// // groupManagementRouter
+// //   .route("/:groupId/members/:memberId")
+// //   .post(groupManagementController.addGroupMember);
+// // groupManagementRouter
+// //   .route("/:groupId/members/:memberId")
+// //   .delete(groupManagementController.removeGroupMember);
 
 module.exports = groupManagementRouter;
