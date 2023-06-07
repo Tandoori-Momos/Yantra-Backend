@@ -8,8 +8,18 @@ const groupChatsSchema = new mongoose.Schema(
     },
     messages: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Messages",
+        senderId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Users",
+        },
+        message: {
+          type: String,
+          required: true,
+        },
+        date: {
+          type: Date,
+          default: Date.now(),
+        },
       },
     ],
   },
