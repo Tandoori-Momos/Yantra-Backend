@@ -43,6 +43,12 @@ app.get("/heartbeat", function (req, res) {
   });
 });
 
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/users/friends", require("./routes/friendManagementRoutes"));
+app.use("/api/groups", require("./routes/groupManagementRoutes"));
+app.use("/api/chats/individual", require("./routes/individualChatRoutes"));
+app.use("/api/chats/group", require("./routes/groupChatRoutes"));
+
 //all invalid urls handled here
 app.all("*", (req, res, next) => {
   next(
