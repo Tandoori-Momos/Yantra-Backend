@@ -1,11 +1,13 @@
 const express = require("express");
-const authController = require("../controllers/user/userController");
-const authRouter = express.Router();
+const userController = require("../controllers/user/userController");
+const userRouter = express.Router();
+const auth = require("../middleware/authMiddleware");
 
-authRouter.route("/").post(authController.registerUser);
-authRouter.route("/login").post(authController.loginUser);
-authRouter.route("/").get(authController.getUserProfile);
-authRouter.route("/").patch(authController.updateUserProfile);
+
+userRouter.route("/").post(userController.registerUser);
+userRouter.route("/login").post(userController.loginUser);
+userRouter.route("/").get(auth,userController.getUserProfile);
+// authRouter.route("/").patch(authController.updateUserProfile);//can see later
 // authRouter.route("/").delete(authController.deleteUser);//can see later
 
-module.exports = authRouter;
+module.exports = userRouter;
