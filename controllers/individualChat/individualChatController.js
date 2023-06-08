@@ -93,3 +93,50 @@ exports.sendIndividualChatMessage = catchAsync(async (req, res, next) => {
     message: "Message sent successfully",
   });
 });
+
+exports.sendSOSMessage = catchAsync(async (req, res, next) => {
+  const user = await userModel
+    .findOne({
+      _id: req.user._id,
+    })
+    .populate("friends");
+
+  console.log(user);
+  for (let i = 0; i < user.friends.length; i++) {
+    let friendId = user.friends[i]._id;
+    const individualChat = await individualChatModel.findOne({
+      $or: [
+        { user1: req.user._id, user2: friendId },
+        { user1: friendId, user2: req.user._id },
+      ],
+    });
+    if (!individualChat) {
+      await new individualChatModel({
+        user1: req.user._id,
+        user2: friendId,
+      }).save();
+    }
+
+    await individualChatModel.findOneAndUpdate(
+      {
+        $or: [
+          { user1: req.user._id, user2: friendId },
+          { user1: friendId, user2: req.user._id },
+        ],
+      },
+      {
+        $push: {
+          messages: {
+            senderId: req.user._id,
+            message: "I am in danger!!!!",
+          },
+        },
+      }
+    );
+  }
+
+  return res.status(200).json({
+    status: "success",
+    message: "SOS sent successfully",
+  });
+});
