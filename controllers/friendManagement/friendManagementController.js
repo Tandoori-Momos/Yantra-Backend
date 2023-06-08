@@ -149,3 +149,17 @@ exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
     message: "Friend Request Rejected successfully",
   });
 });
+
+exports.getFriends = catchAsync(async (req, res, next) => {
+  const friends = await userModel
+    .findOne({
+      _id: req.user._id,
+    })
+    .populate("friends");
+
+  res.status(200).json({
+    status: "success",
+    message: "Friends Fecthed Successfully",
+    data: friends,
+  });
+});
