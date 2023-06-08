@@ -10,6 +10,9 @@ individualChatRouter.route("/").get(auth,individualChatController.getChats);
 individualChatRouter
   .route("/")
   .post(auth,individualChatController.sendIndividualChatMessage);
+// individualChatRouter
+//   .route("/sos")
+//   .post(auth,individualChatController.sendSOSMessage);
 
 // //onn hold
 // // individualChatRouter

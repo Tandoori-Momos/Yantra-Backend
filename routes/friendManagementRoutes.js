@@ -12,7 +12,8 @@ friendManagementRouter
 friendManagementRouter
   .route("/reject")
   .post(auth, friendManagementController.rejectFriendRequest);
-
+friendManagementRouter
+.route("/").get(auth,friendManagementController.getFriends);
 
 //on hold
 // friendManagementRouter.route("/cancel").post(auth,friendManagementController.cancelFriendRequest);
